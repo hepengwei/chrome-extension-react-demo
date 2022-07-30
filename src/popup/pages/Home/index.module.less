@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .logList {
+    width: 90%;
+    height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 20px;
+    border: 1px solid #666;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 6px;
+
+    .title {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .log {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #333;
+        margin-right: 6px;
+      }
+
+      p {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        margin-right: 6px;
+        margin-bottom: 0;
+      }
+
+      button {
+        width: 24px;
+        height: 20px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+    }
+  }
+}

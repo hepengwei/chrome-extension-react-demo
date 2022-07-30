@@ -1,0 +1,7 @@
+{
+  "appName": { "message": "Chrome Extension demo(react)" },
+  "appDescription": {
+    "message": "React based Chrome Extension demo"
+  },
+  "helloWorld": { "message": "Hello World" }
+}

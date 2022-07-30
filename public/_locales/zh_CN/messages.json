@@ -1,0 +1,5 @@
+{
+  "appName": { "message": "Chrome插件demo(react版)" },
+  "appDescription": { "message": "基于react开发的Chrome插件demo" },
+  "helloWorld": { "message": "Hello World" }
+}
