@@ -1,6 +1,7 @@
 {
   "name": "test-react",
   "version": "0.1.0",
+  "author": "River",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
