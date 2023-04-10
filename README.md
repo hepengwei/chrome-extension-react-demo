@@ -11,7 +11,7 @@
 
 ## 介绍文档
 
-[文档](https://www.jianshu.com/p/257c8cae2099)
+[文档](https://juejin.cn/post/7134996479873122312)
 
 ## ⌨️ 本地开发
 
@@ -19,5 +19,5 @@
 $ git clone https://github.com/hepengwei/chrome-extension-react-demo.git
 $ cd chrome-extension-react-demo
 $ npm install
-$ npm run build
+$ npm start
 ```
