@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
 const resolve = require("resolve");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
@@ -94,8 +95,7 @@ module.exports = function (webpackEnv) {
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
-      isEnvDevelopment && require.resolve("style-loader"),
-      isEnvProduction && {
+      {
         loader: MiniCssExtractPlugin.loader,
         // css is located in `static/css`, use '../../' to locate index.html folder
         // in production `paths.publicUrlOrPath` can be a relative path
@@ -214,19 +214,17 @@ module.exports = function (webpackEnv) {
       options: paths.optionsIndexJs,
     },
     output: {
+      // 每次打包输出前先清除之前的文件夹
+      clean: true,
       // The build folder.
       path: paths.appBuild,
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction
-        ? "static/js/[name].js"
-        : isEnvDevelopment && "static/js/[name].bundle.js",
+      filename: "static/js/[name].js",
       // There are also additional JS chunk files if you use code splitting.
-      chunkFilename: isEnvProduction
-        ? "static/js/[name].chunk.js"
-        : isEnvDevelopment && "static/js/[name].chunk.js",
+      chunkFilename: "static/js/[name].chunk.js",
       assetModuleFilename: "images/[name][ext]",
       // assetModuleFilename: "static/media/[name].[hash][ext]",
       // webpack uses `publicPath` to determine where the app is being served from.
@@ -260,7 +258,7 @@ module.exports = function (webpackEnv) {
       level: "none",
     },
     optimization: {
-      minimize: isEnvProduction,
+      minimize: true,
       minimizer: [
         // This is only used in production mode
         new TerserPlugin({
@@ -525,10 +523,21 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
-      // Generates an `index.html` file with the <script> injected.
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: paths.appPublic,
+            to: paths.buildPublic,
+            globOptions: {
+              dot: true,
+              gitignore: true,
+              ignore: ["**/*.html"],
+            },
+          },
+        ],
+      }),
       new HtmlWebpackPlugin(
         Object.assign(
-          {},
           {
             filename: "popup.html",
             inject: true,
@@ -553,10 +562,8 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
-      // Generates an `options.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
-          {},
           {
             filename: "options.html",
             inject: true,
@@ -613,13 +620,12 @@ module.exports = function (webpackEnv) {
       // a plugin that prints an error when you attempt to do this.
       // See https://github.com/facebook/create-react-app/issues/240
       isEnvDevelopment && new CaseSensitivePathsPlugin(),
-      isEnvProduction &&
-        new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: "static/css/[name].css",
-          chunkFilename: "static/css/[name].chunk.css",
-        }),
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "static/css/[name].css",
+        chunkFilename: "static/css/[name].chunk.css",
+      }),
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how webpack interprets its code. This is a practical
       // solution that requires the user to opt into importing specific locales.
@@ -707,7 +713,7 @@ module.exports = function (webpackEnv) {
           targetDir:
             "C:\\Users\\ke\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\myChromeExtension",
           autoClickSelectLocation:
-            "D:\\myProject\\chrome-extension-react-demo\\config\\autoClickSelect.exe",
+            "D:\\myProject2\\chrome-extension-react-demo\\config\\autoClickSelect.exe",
         }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize
